@@ -1,15 +1,20 @@
-//============================================================================
-// Name        : mainApp.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
-
 #include <iostream>
+#include <SDL.h>
+
 using namespace std;
 
 int main() {
-	cout << "!!!Hello World from Git!!!" << endl; // prints !!!Hello World!!!
+
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		cout << "SDL initialization failed" << endl;
+
+		return 1;
+	}
+
+	cout << "SDL initialization succeeded" << endl;
+
+	SDL_Quit();
+
 	return 0;
 }
