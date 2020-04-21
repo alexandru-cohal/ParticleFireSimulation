@@ -13,6 +13,7 @@ int main() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		cout << "SDL initialization failed" << endl;
+
 		return 1;
 	}
 
@@ -21,9 +22,59 @@ int main() {
 
 	if (window == NULL)
 	{
+		cout << "Window creation failed" << endl;
+
+		// Quit SDL
 		SDL_Quit();
+
 		return 2;
 	}
+
+	// Create the renderer
+	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
+
+	if (renderer == NULL)
+	{
+		cout << "Renderer creation failed" << endl;
+
+		// Destroy the SDL window
+		SDL_DestroyWindow(window);
+		// Quit SDL
+		SDL_Quit();
+
+		return 3;
+	}
+
+	// Create the texture
+	SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	if (texture == NULL)
+	{
+		cout << "Texture creation failed" << endl;
+
+		// Destroy the renderer
+		SDL_DestroyRenderer(renderer);
+		// Destroy the SDL window
+		SDL_DestroyWindow(window);
+		// Quit SDL
+		SDL_Quit();
+
+		return 4;
+	}
+
+	// Create the buffer (for the pixels' information)
+	Uint32 *buffer = new Uint32[WINDOW_WIDTH * WINDOW_HEIGHT];
+
+	// Set all the pixels to the white color
+	memset(buffer, 0xFF, WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(Uint32));
+
+	// Update the texture
+	SDL_UpdateTexture(texture, NULL, buffer, WINDOW_WIDTH * sizeof(Uint32));
+
+	// Rendering
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, texture, NULL, NULL);
+	SDL_RenderPresent(renderer);
 
 	// The application loop
 	// Flag for the end of execution
@@ -44,6 +95,12 @@ int main() {
 		}
 	}
 
+	// Destroy the buffer (for the pixels' information)
+	delete[] buffer;
+	// Destroy the texture
+	SDL_DestroyTexture(texture);
+	// Destroy the renderer
+	SDL_DestroyRenderer(renderer);
 	// Destroy the SDL window
 	SDL_DestroyWindow(window);
 	// Quit SDL
