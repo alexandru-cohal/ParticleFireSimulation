@@ -21,6 +21,7 @@ namespace particuleSimulator
 	public:
 		Screen();
 		bool init();
+		void update();
 		bool processEvents();
 		void close();
 	};

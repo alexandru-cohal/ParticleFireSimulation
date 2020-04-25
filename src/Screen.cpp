@@ -60,12 +60,11 @@ namespace particuleSimulator
 		// Set all the pixels to the black color
 		memset(m_buffer, 0, WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(Uint32));
 
-		// Set all the pixels to the yellow color
-		for (int index = 0; index < WINDOW_WIDTH * WINDOW_HEIGHT; index++)
-		{
-			m_buffer[index] = 0xFFFF00FF;
-		}
+		return true;
+	}
 
+	void Screen::update()
+	{
 		// Update the texture
 		SDL_UpdateTexture(m_texture, NULL, m_buffer, WINDOW_WIDTH * sizeof(Uint32));
 
@@ -73,8 +72,6 @@ namespace particuleSimulator
 		SDL_RenderClear(m_renderer);
 		SDL_RenderCopy(m_renderer, m_texture, NULL, NULL);
 		SDL_RenderPresent(m_renderer);
-
-		return true;
 	}
 
 	bool Screen::processEvents()

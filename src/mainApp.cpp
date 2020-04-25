@@ -18,6 +18,10 @@ int main()
 	// The application loop
 	while (true)
 	{
+		// Update the screen
+		screen.update();
+
+		// Check for events
 		if (screen.processEvents() == false)
 		{
 			break;
