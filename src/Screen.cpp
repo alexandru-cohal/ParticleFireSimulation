@@ -74,6 +74,14 @@ namespace particuleSimulator
 		SDL_RenderPresent(m_renderer);
 	}
 
+	void Screen::setPixel(unsigned int x, unsigned int y, Uint8 red, Uint8 green, Uint8 blue)
+	{
+		// color = 0xRRGGBBAA, R - red, G - green, B - blue, A - alpha
+		Uint32 color = (red << 24) + (green << 16) + (blue << 8) + 0xFF;
+
+		m_buffer[y * WINDOW_WIDTH + x] = color;
+	}
+
 	bool Screen::processEvents()
 	{
 		// Event information

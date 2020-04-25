@@ -22,6 +22,7 @@ namespace particuleSimulator
 		Screen();
 		bool init();
 		void update();
+		void setPixel(unsigned int x, unsigned int y, Uint8 red, Uint8 green, Uint8 blue); // x - column, y - row
 		bool processEvents();
 		void close();
 	};
