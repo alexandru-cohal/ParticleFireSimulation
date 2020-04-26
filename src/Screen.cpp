@@ -76,6 +76,12 @@ namespace particuleSimulator
 
 	void Screen::setPixel(unsigned int x, unsigned int y, Uint8 red, Uint8 green, Uint8 blue)
 	{
+		// Check if the pixel's position is valid
+		if (x < 0 || x >= WINDOW_WIDTH || y < 0 || y >= WINDOW_HEIGHT)
+		{
+			return;
+		}
+
 		// color = 0xRRGGBBAA, R - red, G - green, B - blue, A - alpha
 		Uint32 color = (red << 24) + (green << 16) + (blue << 8) + 0xFF;
 
