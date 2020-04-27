@@ -28,9 +28,6 @@ int main()
 	// The application loop
 	while (true)
 	{
-		// Clear the screen's buffer
-		screen.clear();
-
 		// Get the elapsed time
 		int elapsedTime = SDL_GetTicks();
 
@@ -55,6 +52,9 @@ int main()
 
 			screen.setPixel(x, y, red, green, blue);
 		}
+
+		// Apply the blur effect
+		screen.boxBlur();
 
 		// Update the screen
 		screen.update();

@@ -17,12 +17,14 @@ namespace particuleSimulator
 		SDL_Renderer *m_renderer;
 		SDL_Texture *m_texture;
 		Uint32 *m_buffer;
+		Uint32 *m_bufferAux;
 
 	public:
 		Screen();
 		bool init();
 		void update();
 		void clear();
+		void boxBlur();
 		void setPixel(unsigned int x, unsigned int y, Uint8 red, Uint8 green, Uint8 blue); // x - column, y - row
 		bool processEvents();
 		void close();

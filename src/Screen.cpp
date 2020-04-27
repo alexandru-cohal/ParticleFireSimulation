@@ -3,7 +3,7 @@
 namespace particuleSimulator
 {
 	Screen::Screen():
-		m_window(NULL), m_renderer(NULL), m_texture(NULL), m_buffer(NULL)
+		m_window(NULL), m_renderer(NULL), m_texture(NULL), m_buffer(NULL), m_bufferAux(NULL)
 	{
 	}
 
@@ -54,11 +54,13 @@ namespace particuleSimulator
 			return false;
 		}
 
-		// Create the buffer (for the pixels' information)
+		// Create the buffers (for the pixels' information)
 		m_buffer = new Uint32[WINDOW_WIDTH * WINDOW_HEIGHT];
+		m_bufferAux = new Uint32[WINDOW_WIDTH * WINDOW_HEIGHT];
 
 		// Set all the pixels to the black color
 		memset(m_buffer, 0, WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(Uint32));
+		memset(m_bufferAux, 0, WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(Uint32));
 
 		return true;
 	}
@@ -77,6 +79,59 @@ namespace particuleSimulator
 	void Screen::clear()
 	{
 		memset(m_buffer, 0, WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(Uint32));
+		memset(m_bufferAux, 0, WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(Uint32));
+	}
+
+	void Screen::boxBlur()
+	{
+		// Swap the buffers
+		Uint32 *temp;
+
+		temp = m_buffer;
+		m_buffer = m_bufferAux;
+		m_bufferAux = temp;
+
+		// Iterate over all the pixels
+		for (int yMiddleBox = 0; yMiddleBox < WINDOW_HEIGHT; yMiddleBox++)
+			for (int xMiddleBox = 0; xMiddleBox < WINDOW_WIDTH; xMiddleBox++)
+			{
+				int redSum = 0;
+				int greenSum = 0;
+				int blueSum = 0;
+
+				// Iterate over the pixels of the selected pixel's surrounding 3 x 3 box
+				for (int row = -1; row <= 1; row++)
+					for (int col = -1; col <= 1; col++)
+					{
+						int xInBox = xMiddleBox + col;
+						int yInBox = yMiddleBox + row;
+
+						// Check if the pixel is in the window
+						if (xInBox >=0 && xInBox < WINDOW_WIDTH)
+							if (yInBox >=0 && yInBox < WINDOW_HEIGHT)
+							{
+								// Get the pixel's RGB values
+								Uint32 color = m_bufferAux[yInBox * WINDOW_WIDTH + xInBox];
+
+								Uint8 red = color >> 24;
+								Uint8 green = color >> 16;
+								Uint8 blue = color >> 8;
+
+								// Add the RGB values to the total
+								redSum += red;
+								greenSum += green;
+								blueSum += blue;
+							}
+					}
+
+				// Calculate the average of the RGB values of the box's pixels
+				Uint8 redAvg = redSum / 9;
+				Uint8 greenAvg = greenSum / 9;
+				Uint8 blueAvg = blueSum / 9;
+
+				// Set the box average RGB value to the buffer
+				setPixel(xMiddleBox, yMiddleBox, redAvg, greenAvg, blueAvg);
+			}
 	}
 
 	void Screen::setPixel(unsigned int x, unsigned int y, Uint8 red, Uint8 green, Uint8 blue)
@@ -113,8 +168,9 @@ namespace particuleSimulator
 
 	void Screen::close()
 	{
-		// Destroy the buffer (for the pixels' information)
+		// Destroy the buffers (for the pixels' information)
 		delete[] m_buffer;
+		delete[] m_bufferAux;
 		// Destroy the texture
 		SDL_DestroyTexture(m_texture);
 		// Destroy the renderer
