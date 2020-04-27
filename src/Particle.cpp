@@ -17,5 +17,11 @@ namespace particuleSimulator
 	{
 		m_x += m_xSpeed;
 		m_y += m_ySpeed;
+
+		// Make sure that the particle stays within the box
+		if (m_x <= -1 || m_x >= 1)
+			m_xSpeed = - m_xSpeed;
+		if (m_x <= -1 || m_x >= 1)
+			m_ySpeed = - m_ySpeed;
 	}
 }
