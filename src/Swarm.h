@@ -19,6 +19,7 @@ namespace particuleSimulator
 
 	private:
 		Particle * m_pParticles;
+		int lastElapsedTime;
 
 	public:
 		Swarm();
@@ -27,7 +28,7 @@ namespace particuleSimulator
 		// Returns a constant pointer to a constant Particle in order to:
 		// 1. not be able to change where the pointer points
 		// 2. not be able to change what is pointed by the pointer
-		void update();
+		void update(int elapsedTime);
 	};
 }
 

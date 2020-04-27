@@ -13,7 +13,7 @@ namespace particuleSimulator
 
 	public:
 		Particle();
-		void update();
+		void update(int intervalTime);
 	};
 }
 

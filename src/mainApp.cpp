@@ -31,14 +31,16 @@ int main()
 		// Clear the screen's buffer
 		screen.clear();
 
+		// Get the elapsed time
+		int elapsedTime = SDL_GetTicks();
+
 		// Update the position of the swarm's particles
-		swarm.update();
+		swarm.update(elapsedTime);
 
 		// Get the particles of the swarm
 		const Particle * const sParticles = swarm.getParticles();
 
 		// Generate the Red, Blue and Green values for the particles
-		int elapsedTime = SDL_GetTicks();
 		unsigned char red = (unsigned char)((1 + sin(elapsedTime * 0.0001)) * 128);
 		unsigned char green = (unsigned char)((1 + sin(elapsedTime * 0.0002)) * 128);
 		unsigned char blue = (unsigned char)((1 + sin(elapsedTime * 0.0003)) * 128);
