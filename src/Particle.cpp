@@ -12,9 +12,10 @@ namespace particuleSimulator
 
 	void Particle::update()
 	{
-		const double speed = 0.01;
+		const double xSpeed = 0.01 * ((2.0 * rand()) / RAND_MAX - 1);
+		const double ySpeed = 0.01 * ((2.0 * rand()) / RAND_MAX - 1);
 
-		m_x += speed;
-		m_y += speed;
+		m_x += xSpeed;
+		m_y += ySpeed;
 	}
 }
