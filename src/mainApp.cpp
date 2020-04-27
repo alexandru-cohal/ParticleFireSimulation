@@ -28,6 +28,12 @@ int main()
 	// The application loop
 	while (true)
 	{
+		// Clear the screen's buffer
+		screen.clear();
+
+		// Update the position of the swarm's particles
+		swarm.update();
+
 		// Get the particles of the swarm
 		const Particle * const sParticles = swarm.getParticles();
 

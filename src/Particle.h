@@ -11,6 +11,7 @@ namespace particuleSimulator
 
 	public:
 		Particle();
+		void update();
 	};
 }
 

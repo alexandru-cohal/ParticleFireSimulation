@@ -74,6 +74,11 @@ namespace particuleSimulator
 		SDL_RenderPresent(m_renderer);
 	}
 
+	void Screen::clear()
+	{
+		memset(m_buffer, 0, WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(Uint32));
+	}
+
 	void Screen::setPixel(unsigned int x, unsigned int y, Uint8 red, Uint8 green, Uint8 blue)
 	{
 		// Check if the pixel's position is valid

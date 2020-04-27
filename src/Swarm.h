@@ -23,11 +23,11 @@ namespace particuleSimulator
 	public:
 		Swarm();
 		~Swarm();
-
 		const Particle * const getParticles();
 		// Returns a constant pointer to a constant Particle in order to:
 		// 1. not be able to change where the pointer points
 		// 2. not be able to change what is pointed by the pointer
+		void update();
 	};
 }
 
