@@ -1,28 +1,35 @@
+// The definition of the methods of the class used for:
+// - manipulating a single particle
+
 #include "Particle.h"
 
-#include <stdlib.h>
 #include <math.h>
 
 namespace particuleSimulator
 {
 	Particle::Particle(): m_x(0), m_y(0)
 	{
-		m_direction = (2 * M_PI * rand()) / RAND_MAX;
-		m_speed = pow((0.05 * rand()) / RAND_MAX, 2);
+		initSpeedAndDirection();
 	}
 
-	void Particle::init()
+	void Particle::respawn()
 	{
+		// Reinitialize the particle in the middle of the window and with the initial speed and direction
 		m_x = 0;
 		m_y = 0;
+		initSpeedAndDirection();
+	}
+
+	void Particle::initSpeedAndDirection()
+	{
 		m_direction = (2 * M_PI * rand()) / RAND_MAX;
-		m_speed = pow((0.05 * rand()) / RAND_MAX, 2);
+		m_speed = pow((SPEEDFACTOR * rand()) / RAND_MAX, 2);
 	}
 
 	void Particle::update(int intervalTime)
 	{
 		// Modify the direction for having a "curly" effect
-		m_direction += 0.001 * intervalTime;
+		m_direction += DIRECTIONFACTOR * intervalTime;
 
 		// Calculate the speed in x and y directions
 		double xSpeed = m_speed * cos(m_direction);
@@ -35,13 +42,13 @@ namespace particuleSimulator
 		// If the particle goes outside of the window, reinitialize it in the middle of the window
 		if (m_x < -1 || m_x > 1 || m_y < -1 || m_y > 1)
 		{
-			init();
+			respawn();
 		}
 
-		// Choose randomly if the particle will be moved in the middle of the window
-		if (rand() < RAND_MAX / 1000)
+		// Choose randomly if the particle will be reinitialized in the middle of the window
+		if (rand() < RESPAWNRATE)
 		{
-			init();
+			respawn();
 		}
 	}
 }

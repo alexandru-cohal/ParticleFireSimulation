@@ -1,3 +1,6 @@
+// The definition of the methods of the class used for:
+// - manipulating the swarm of multiple particles
+
 #include "Swarm.h"
 
 namespace particuleSimulator
@@ -19,6 +22,8 @@ namespace particuleSimulator
 
 	void Swarm::update(int elapsedTime)
 	{
+		// The update of the Swarm is done by updating all the Particles
+
 		// Calculate the time interval between the previous update and the current one
 		int intervalTime = elapsedTime - lastElapsedTime;
 

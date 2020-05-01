@@ -1,3 +1,7 @@
+// The declaration of the class used for:
+// 1) screen rendering
+// 2) interaction with the screen
+
 #ifndef SCREEN_H_
 #define SCREEN_H_
 

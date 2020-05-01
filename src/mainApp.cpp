@@ -37,23 +37,25 @@ int main()
 		// Get the particles of the swarm
 		const Particle * const sParticles = swarm.getParticles();
 
-		// Generate the Red, Blue and Green values for the particles
-		unsigned char red = (unsigned char)((1 + sin(elapsedTime * 0.0001)) * 128);
-		unsigned char green = (unsigned char)((1 + sin(elapsedTime * 0.0002)) * 128);
-		unsigned char blue = (unsigned char)((1 + sin(elapsedTime * 0.0003)) * 128);
+		// Generate the color (Red, Blue and Green values) for the particles
+		unsigned char red = (unsigned char)((1 + sin(elapsedTime * Particle::RVARIATIONFACTOR)) * 128);
+		unsigned char green = (unsigned char)((1 + sin(elapsedTime * Particle::GVARIATIONFACTOR)) * 128);
+		unsigned char blue = (unsigned char)((1 + sin(elapsedTime * Particle::BVARIATIONFACTOR)) * 128);
 
-		// Set the particles and their colors to the screen's buffer
+		// Set the particles (i.e. their positions and colors) to the screen's buffer
 		for (int i = 0; i < Swarm::NPARTICLES; i++)
 		{
 			Particle particle = sParticles[i];
 
+			// Map the interval of the x and y position ([-1, 1] interval) to the window's dimensions
 			int x = (particle.m_x + 1) * (Screen::WINDOW_WIDTH / 2);
 			int y = particle.m_y * (Screen::WINDOW_WIDTH / 2) + (Screen::WINDOW_HEIGHT / 2);
 
+			// Set the particle (i.e. pixel) to the screen's buffer
 			screen.setPixel(x, y, red, green, blue);
 		}
 
-		// Apply the blur effect
+		// Apply the blur effect (i.e. box type of blurring)
 		screen.boxBlur();
 
 		// Update the screen
@@ -61,11 +63,13 @@ int main()
 
 		// Check for events
 		if (screen.processEvents() == false)
+		// False is returned when the SDL quit event (i.e. window closed) is detected
 		{
 			break;
 		}
 	}
 
+	// Close the Screen object
 	screen.close();
 
 	return 0;

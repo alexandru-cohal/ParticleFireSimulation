@@ -1,3 +1,7 @@
+// The definition of the methods of the class used for:
+// 1) screen rendering
+// 2) interaction with the screen
+
 #include "Screen.h"
 
 namespace particuleSimulator
@@ -103,6 +107,7 @@ namespace particuleSimulator
 				for (int row = -1; row <= 1; row++)
 					for (int col = -1; col <= 1; col++)
 					{
+						// The coordinates of the selected pixel from the box
 						int xInBox = xMiddleBox + col;
 						int yInBox = yMiddleBox + row;
 
@@ -129,7 +134,7 @@ namespace particuleSimulator
 				Uint8 greenAvg = greenSum / 9;
 				Uint8 blueAvg = blueSum / 9;
 
-				// Set the box average RGB value to the buffer
+				// Set the box average RGB value to the buffer for the selected pixel
 				setPixel(xMiddleBox, yMiddleBox, redAvg, greenAvg, blueAvg);
 			}
 	}
@@ -171,12 +176,16 @@ namespace particuleSimulator
 		// Destroy the buffers (for the pixels' information)
 		delete[] m_buffer;
 		delete[] m_bufferAux;
+
 		// Destroy the texture
 		SDL_DestroyTexture(m_texture);
+
 		// Destroy the renderer
 		SDL_DestroyRenderer(m_renderer);
+
 		// Destroy the SDL window
 		SDL_DestroyWindow(m_window);
+
 		// Quit SDL
 		SDL_Quit();
 	}

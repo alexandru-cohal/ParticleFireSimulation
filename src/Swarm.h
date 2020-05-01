@@ -1,9 +1,5 @@
-/*
- * Swarm.h
- *
- *  Created on: Apr 26, 2020
- *      Author: alexandru
- */
+// The declaration of the class used for:
+// - manipulating the swarm of multiple particles
 
 #ifndef SWARM_H_
 #define SWARM_H_
@@ -25,7 +21,7 @@ namespace particuleSimulator
 		Swarm();
 		~Swarm();
 		const Particle * const getParticles();
-		// Returns a constant pointer to a constant Particle in order to:
+		// getParticles() returns a constant pointer to a constant Particle in order to:
 		// 1. not be able to change where the pointer points
 		// 2. not be able to change what is pointed by the pointer
 		void update(int elapsedTime);
